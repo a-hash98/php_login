@@ -29,7 +29,7 @@ if (isset($_POST['signup-submit'])) {
         header("Location: ../signup.php?
         error=invalidmailuid");
 
-        exit()
+        exit();
     }
 
     #handles invalid email address only
@@ -99,9 +99,15 @@ if (isset($_POST['signup-submit'])) {
                 }      
         
                 else {
-                        mysqli_statement_bind_param($statement, "sss", $username, $email. $password);
-                        mysqli_statement_execute($statement);
-                        mysqli_statement_store_result($statement);
+
+                    #hashing the password
+                    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+                    mysqli_statement_bind_param($statement, "sss", $username, $email. $password);
+                    mysqli_statement_execute($statement);
+                    header("Location: ../signup.php?signup=success");
+                    
+                    exit();
 
                 }
 
@@ -111,10 +117,14 @@ if (isset($_POST['signup-submit'])) {
         }
     }
 
+    #close the connection
+    mysqli_statement_close($statement);
+    mysqli_close($connection)
 
 
 
 
-}
+
+} 
 
 ?>
