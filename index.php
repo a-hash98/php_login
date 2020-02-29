@@ -3,7 +3,8 @@
 ?>
 
     <main>
-        
+        <p> You are logged in. </p>
+        <p> You have logged out. </p>
     </main>
 
 

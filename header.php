@@ -29,9 +29,20 @@
             </ul>
             
             <div>
-                <form action="includes/login.inc.php" method="post">
-
+                <form action="includes/login.php" method="post">
+                    <input type="text" name="mailuid" placeholder="Username or email">
+                    <input type="password" name="password" placeholder="password">
+                    <button type="submit" name="login-submit">log in</button>
                 </form>
+
+                <a href="signup.php">Sign Up</a>
+
+                <form action="includes/logout.php" method="post">
+                    <button type="submit" name="logout-submit">log out</button>
+                </form>
+
+
+                
             </div>
         </header>
 
