@@ -35,7 +35,13 @@ session_start();
             </ul>
             
             <div>
-                <form action="includes/login.php" method="post">
+            <?php 
+                if isset($_SESSION['userId']) {
+                    echo '<form action="includes/logout.php" method="post">
+                    <button type="submit" name="logout-submit">log out</button>
+                </form>'
+                } else {
+                echo '<form action="includes/login.php" method="post">
                     <input type="text" name="mailuid" placeholder="Username or email">
                     <input type="password" name="password" placeholder="password">
                     <button type="submit" name="login-submit">log in</button>
@@ -45,9 +51,9 @@ session_start();
 
                 <form action="includes/logout.php" method="post">
                     <button type="submit" name="logout-submit">log out</button>
-                </form>
+                </form>'
 
-
+            ?>
                 
             </div>
         </header>
