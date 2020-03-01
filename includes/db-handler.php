@@ -3,15 +3,15 @@
 $serverName = "localhost";
 $dbUsername = "root";
 $dbPassword = "";
-$dbName = "loginbeginner"
+$dbName = "loginbeginner";
 
-$connection = mysqli_connect($serverName.
+$connection = mysqli_connect($serverName,
 $dbUsername,
 $dbPassword,
-$dbName)
+$dbName);
 
 if (!$conn) {
-    die("Connection failed: ".mysqli_connect_error())
+    die("Connection failed: ".mysqli_connect_error());
 }
 
 ?>

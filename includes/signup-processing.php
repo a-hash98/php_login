@@ -37,7 +37,7 @@ if (isset($_POST['signup-submit'])) {
         header("Location: ../signup.php?
         error=invalidmail&uid=".$username);
 
-        exit()
+        exit();
     }
 
     #handles invalid username only
@@ -45,7 +45,7 @@ if (isset($_POST['signup-submit'])) {
         header("Location: ../signup.php?
         error=invaliduid&mail=".$email);
 
-        exit()
+        exit();
     }
 
     #handles unidentical passwords
@@ -53,78 +53,74 @@ if (isset($_POST['signup-submit'])) {
         header("Location: ../signup.php?
         error=emptyfields&uid=".$username."&mail=".$email);
         
-        exit()
+        exit();
+
     }
+
     
 
     #handles username that already exists in the DB e.g. belongs to another user
-    else {
+else {
         $sql = "SELECT uidUsers from users WHERE uidUsers=?";
-        $statement = mysqli_statement_init($conn)
+        
+        $statement = mysqli_stmt_init($connection);
         #handling potentially invalid connection
-        if (!mysqli_statement_prepare($statement, $sql)) {
-            header("Location: ../signup/php?error=sqlconnectionerror")
+        if (!mysqli_stmt_prepare($statement, $sql)) {
+            header("Location: ../signup.php?error=sqlerror");
             
-            exit()
+            exit();
         }
 
-        else {
+        
             #bind user info to send to DB
-            mysqli_statement_bind_param($statement, "s", $username);
-            mysqli_statement_execute($statement);
-            mysqli_statement_store_result($statement);
-            $resultCheck = mysqli_statement_num_rows($statement);
+            mysqli_stmt_bind_param($statement, "s", $username);
+            mysqli_stmt_execute($statement);
+            mysqli_stmt_store_result($statement);
+            $resultCheck = mysqli_stmt_num_rows($statement);
 
             if ($resultCheck > 0) {
                 header("Location: ../signup.php?
                 error=usernametakend&mail=".$email);
 
-                exit()
+                exit();
             }
             
         #end of error handling
 
-        else {
-            #SQL statement to insert valid user data into DB      
-            $sql = "INSERT INTO users (uidUsers, emailUsers, pwdUsers) VALUES (?,?,?)";
+        
+                #SQL statement to insert valid user data into DB      
+                $sql = "INSERT INTO users (uidUsers, emailUsers, pwdUsers) VALUES (?,?,?)";
 
-            $statement = mysqli_statement_init($conn)
-            
-            #handling potentially invalid connection
-                if (!mysqli_statement_prepare($statement, $sql)) {
-                    header("Location: ../signup/php?error=sqlconnectionerror")
+                $statement = mysqli_stmt_init($connection);
                 
-                    exit()
+                #handling potentially invalid connection
+                if (!mysqli_stmt_prepare($statement, $sql)) {
+                        header("Location: ../signup.php?error=sqlerror");
+                    
+                    exit();
 
                 }      
         
-                else {
+            
 
                     #hashing the password
                     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-                    mysqli_statement_bind_param($statement, "sss", $username, $email. $password);
-                    mysqli_statement_execute($statement);
+                    mysqli_stmt_bind_param($statement, "sss", $username, $email, $password);
+                    mysqli_stmt_execute($statement);
                     header("Location: ../signup.php?signup=success");
                     
                     exit();
 
-                }
-
-
-        }
-
-        }
-    }
+            
 
     #close the connection
     mysqli_statement_close($statement);
-    mysqli_close($connection)
+    mysqli_close($connection);
 
 
 
 
 
+}
 } 
-
-?>
