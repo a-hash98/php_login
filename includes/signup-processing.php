@@ -51,7 +51,7 @@ if (isset($_POST['signup-submit'])) {
     #handles unidentical passwords
     else if ($password !== $passwordRepeat) {
         header("Location: ../signup.php?
-        error=emptyfields&uid=".$username."&mail=".$email);
+        error=-passwordcheck&uid=".$username."&mail=".$email);
         
         exit();
 
@@ -79,8 +79,7 @@ else {
             $resultCheck = mysqli_stmt_num_rows($statement);
 
             if ($resultCheck > 0) {
-                header("Location: ../signup.php?
-                error=usernametakend&mail=".$email);
+                header("Location: ../signup.php?error=usernametakend&mail=".$email);
 
                 exit();
             }

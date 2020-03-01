@@ -10,7 +10,7 @@ $dbUsername,
 $dbPassword,
 $dbName);
 
-if (!$conn) {
+if (!$connection) {
     die("Connection failed: ".mysqli_connect_error());
 }
 
