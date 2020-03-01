@@ -19,21 +19,24 @@
 
                 }
                 else if ($_GET['error'] == "invalidmail"){
-                    echo '<p> Please complete all fields. </p>';
+                    echo '<p> Please enter a valid email address. </p>';
 
-                } 
+                }
                 else if ($_GET['error'] == "passwordcheck"){
                     echo '<p> Passwords do not match. </p>';
 
                 }
-                else if ($_GET['error'] == "usertaken"){
+                else if ($_GET['error'] == "usernametaken"){
                     echo '<p> Username already exists. </p>';
 
+                } else if ($_GET['error'] == "emailtaken"){
+                    echo '<p> This email address has already been used to sign up. </p>';
                 }
 
-            } else {
-                echo '<p> Signed up successfully! </p>';
-
+            } else if (isset($_GET['signup']) == "success") {
+                    if ($_GET['signup'] == "success"){
+                        echo '<p> Signed up successfully! </p>';
+                    }
             }
 
             ?>
@@ -49,5 +52,5 @@
     </main>
 
 <?php
-    require "footer.php"
+    require "footer.php";
 ?>

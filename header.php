@@ -2,6 +2,8 @@
 
 session_start();
 
+
+
 ?>
 
 <!DOCTYPE html>
@@ -36,28 +38,24 @@ session_start();
             
             <div>
             <?php 
-                if isset($_SESSION['userId']) {
-                    echo '<form action="includes/logout.php" method="post">
+                if (isset($_SESSION['userId'])) {
+                    echo '<form action="includes/logout-processing.php" method="post">
                     <button type="submit" name="logout-submit">log out</button>
-                </form>'
+                </form>';
                 } else {
-                echo '<form action="includes/login.php" method="post">
+                echo '<form action="includes/login-processing.php" method="post">
                     <input type="text" name="mailuid" placeholder="Username or email">
                     <input type="password" name="password" placeholder="password">
                     <button type="submit" name="login-submit">log in</button>
                 </form>
 
-                <a href="signup.php">Sign Up</a>
-
-                <form action="includes/logout.php" method="post">
-                    <button type="submit" name="logout-submit">log out</button>
-                </form>'
-
+                <a href="signup.php">Sign Up</a>';
+                }
             ?>
                 
             </div>
         </header>
 
-    <!-- </body>
+    </body>
 
-</html> -->
+</html>

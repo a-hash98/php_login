@@ -16,9 +16,8 @@ if (isset($_POST['signup-submit'])) {
     
 
     #handles empty fields
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL) && !preg_match()) {
-        header("Location: ../signup.php?
-        error=emptyfields&uid=".$username."&mail=".$email);
+    if (empty($username) || empty($email) || empty($password) || empty($passwordRepeat)) {
+        header("Location: ../signup.php?error=emptyfields");
 
         #exit function prevents code below it from being executed
         exit();
@@ -26,32 +25,28 @@ if (isset($_POST['signup-submit'])) {
 
     #handles invalid email address and username
     elseif (!filter_var($email, FILTER_VALIDATE_EMAIL) && (!preg_match("/^[a-zA-Z0-9]*$/", $username))) {
-        header("Location: ../signup.php?
-        error=invalidmailuid");
+        header("Location: ../signup.php?error=invalidmailuid");
 
         exit();
     }
 
     #handles invalid email address only
     elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        header("Location: ../signup.php?
-        error=invalidmail&uid=".$username);
+        header("Location: ../signup.php?error=invalidmail&uid=".$username);
 
         exit();
     }
 
     #handles invalid username only
     elseif (!preg_match("/^[a-zA-Z0-9]*$/", $username)) {
-        header("Location: ../signup.php?
-        error=invaliduid&mail=".$email);
+        header("Location: ../signup.php?error=invaliduid&mail=".$email);
 
         exit();
     }
 
     #handles unidentical passwords
     else if ($password !== $passwordRepeat) {
-        header("Location: ../signup.php?
-        error=-passwordcheck&uid=".$username."&mail=".$email);
+        header("Location: ../signup.php?error=passwordcheck&uid=".$username."&mail=".$email);
         
         exit();
 
@@ -79,7 +74,7 @@ else {
             $resultCheck = mysqli_stmt_num_rows($statement);
 
             if ($resultCheck > 0) {
-                header("Location: ../signup.php?error=usernametakend&mail=".$email);
+                header("Location: ../signup.php?error=usernametaken&mail=".$email);
 
                 exit();
             }
@@ -98,19 +93,20 @@ else {
                     
                     exit();
 
-                }      
+                }  else {  
         
             
 
                     #hashing the password
                     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-                    mysqli_stmt_bind_param($statement, "sss", $username, $email, $password);
+                    mysqli_stmt_bind_param($statement, "sss", $username, $email, $hashedPassword);
                     mysqli_stmt_execute($statement);
                     header("Location: ../signup.php?signup=success");
                     
                     exit();
 
+                }
             
 
     #close the connection
